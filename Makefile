@@ -4,7 +4,7 @@ TARGETS := build/dispatcher build/requests build/notify
 
 
 build/%: lambdas/*/%.go
-    @mkdir -p build
+	@mkdir -p build
 	go build -o $@ $<
 
 .PHONY : compile
