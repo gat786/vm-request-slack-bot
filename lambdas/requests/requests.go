@@ -80,6 +80,7 @@ func HandleRequest(ctx context.Context, request CreateVMOptions) (map[string]int
 	}
 
 	if true {
+		log.Println(pulumiProjectName, pulumiStackName, pulumiUserName)
 		s, err := auto.NewStackInlineSource(ctx, pulumiStackName, pulumiProjectName, deployFunc)
 
 		if err != nil {
@@ -134,6 +135,7 @@ func HandleRequest(ctx context.Context, request CreateVMOptions) (map[string]int
 	} else {
 		// create or select a stack matching the specified name and project.
 		// this will set up a workspace with everything necessary to run our inline program (deployFunc)
+		log.Println(pulumiProjectName, pulumiStackName, pulumiUserName)
 		s, err := auto.SelectStackInlineSource(ctx, pulumiStackName, pulumiProjectName, deployFunc)
 
 		if err != nil {

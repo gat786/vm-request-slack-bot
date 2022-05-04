@@ -14,6 +14,9 @@ RUN go build requests.go
 
 # copy artifacts to a clean image
 FROM public.ecr.aws/lambda/provided:al2
+RUN yum install tar gzip -y
+RUN curl -fsSL https://get.pulumi.com | sh
+ENV PATH="~/.pulumi/bin:${PATH}"
 WORKDIR /app
 COPY --from=build /app/requests .
 ENTRYPOINT [ "/app/requests" ]
