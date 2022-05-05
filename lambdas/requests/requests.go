@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/aws/aws-lambda-go/lambda"
+	// "github.com/aws/aws-lambda-go/lambda"
 	"github.com/joho/godotenv"
 	"github.com/pulumi/pulumi-linode/sdk/v3/go/linode"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
@@ -163,13 +163,7 @@ func HandleRequest(ctx context.Context, request CreateVMOptions) (map[string]int
 }
 */
 
-func HandleRequest(handlerCtx context.Context, request CreateVMOptions) (map[string]interface{}, error) {
-
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
+func HandleRequest() (map[string]interface{}, error) {
 	ctx := context.Background()
 
 	// These are the data points that would be required as input for the lambda to work
@@ -296,12 +290,13 @@ func HandleRequest(handlerCtx context.Context, request CreateVMOptions) (map[str
 }
 
 func main() {
-	if os.Getenv("APP_ENV") != "production" {
+	app_env, app_env_exists := os.LookupEnv("APP_ENV")
+	if app_env_exists && app_env != "production" {
 		err := godotenv.Load()
 		if err != nil {
 			log.Fatal("Error loading .env file")
 		}
 	}
-	lambda.Start(HandleRequest)
-	// HandleRequest()
+	// lambda.Start(HandleRequest)
+	HandleRequest()
 }
