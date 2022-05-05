@@ -5,7 +5,6 @@ RUN curl -fsSL https://get.pulumi.com | sh
 RUN go env -w GOPROXY=direct
 
 WORKDIR /app
-
 COPY . .
 
 RUN go mod init requests-lambda

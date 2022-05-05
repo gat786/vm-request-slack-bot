@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/joho/godotenv"
 	"github.com/pulumi/pulumi-linode/sdk/v3/go/linode"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
@@ -162,7 +163,7 @@ func HandleRequest(ctx context.Context, request CreateVMOptions) (map[string]int
 }
 */
 
-func HandleRequest() {
+func HandleRequest(handlerCtx context.Context, request CreateVMOptions) (map[string]interface{}, error) {
 
 	err := godotenv.Load()
 	if err != nil {
@@ -288,6 +289,10 @@ func HandleRequest() {
 
 		log.Printf("Update succeeded! with result %s", res.Summary.Message)
 	}
+
+	return map[string]interface{}{
+		"message": "something else",
+	}, nil
 }
 
 func main() {
@@ -297,6 +302,6 @@ func main() {
 			log.Fatal("Error loading .env file")
 		}
 	}
-	// lambda.Start(HandleRequest)
-	HandleRequest()
+	lambda.Start(HandleRequest)
+	// HandleRequest()
 }
