@@ -16,7 +16,6 @@ FROM public.ecr.aws/lambda/provided:al2
 RUN yum install tar gzip -y
 RUN curl -fsSL https://get.pulumi.com | sh
 ENV PATH="/root/.pulumi/bin:${PATH}"
-RUN echo $PATH
 WORKDIR /app
 COPY --from=build /app/requests .
 ENTRYPOINT [ "/app/requests" ]
