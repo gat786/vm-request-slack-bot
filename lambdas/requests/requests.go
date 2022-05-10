@@ -8,7 +8,8 @@ import (
 	"time"
 
 	// "github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-lambda-go/lambda"
+
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/pulumi/pulumi-linode/sdk/v3/go/linode"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
@@ -39,7 +40,7 @@ type VmOptions struct {
 	SwapSize        int16  `json:"swapSize"`
 }
 
-func HandleRequest(handlerCtx context.Context, request CreateVMOptions) (map[string]interface{}, error) {
+func HandleRequest() (map[string]interface{}, error) {
 	ctx := context.Background()
 
 	// These are the data points that would be required as input for the lambda to work
@@ -167,12 +168,30 @@ func HandleRequest(handlerCtx context.Context, request CreateVMOptions) (map[str
 
 func main() {
 	app_env, app_env_exists := os.LookupEnv("APP_ENV")
-	if app_env_exists && app_env != "production" {
+	if app_env_exists && app_env == "production" {
 		err := godotenv.Load()
 		if err != nil {
 			log.Println("Error loading .env file")
 		}
 	}
-	lambda.Start(HandleRequest)
+	// lambda.Start(HandleRequest)
 	// HandleRequest()
+
+	r := gin.New()
+
+	r.GET("/", func(ctx *gin.Context) {
+		ctx.JSON(200, gin.H{"message": "home path"})
+	})
+
+	r.POST("/create-vm", func(ctx *gin.Context) {
+		log.Println(os.Getenv("PATH"))
+		// HandleRequest()
+		ctx.JSON(200, gin.H{"message": "create-vm"})
+	})
+
+	r.POST("/delete-vm", func(ctx *gin.Context) {
+		ctx.JSON(200, gin.H{"message": "delete-vm"})
+	})
+
+	r.Run()
 }

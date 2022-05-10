@@ -6,4 +6,6 @@ services:
       - APP_ENV=${APP_ENV}
       - PULUMI_ACCESS_TOKEN=${PULUMI_ACCESS_TOKEN}
       - LINODE_TOKEN=${LINODE_TOKEN}
-    image: 228016254426.dkr.ecr.ap-south-1.amazonaws.com/slack-linode-pulumi-create-vm-images:latest
+    ports:
+      - "8080"
+    # image: 228016254426.dkr.ecr.ap-south-1.amazonaws.com/slack-linode-pulumi-create-vm-images:latest
